@@ -8,6 +8,8 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(dot 
     ${CMAKE_SOURCE_DIR}/app/rl/main.c
+    ${CMAKE_SOURCE_DIR}/client/settings.c
+    ${CMAKE_SOURCE_DIR}/deps/cJSON/cJSON.c
 )
 
 add_subdirectory(deps/raylib)
@@ -20,4 +22,5 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/server
     ${CMAKE_SOURCE_DIR}/shared
     ${CMAKE_SOURCE_DIR}/deps/raylib/src
+    ${CMAKE_SOURCE_DIR}/deps/cJSON
 )
