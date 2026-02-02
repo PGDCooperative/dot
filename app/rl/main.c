@@ -1,3 +1,4 @@
+#include "render.h"
 #include "settings.h"
 
 int main(void)
@@ -8,4 +9,6 @@ int main(void)
     {
         return 1;
     }
+    InitializeWindow(settings.width, settings.height, settings.fullscreen);
+    RenderLoop(&settings);
 }

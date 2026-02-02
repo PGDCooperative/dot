@@ -2,7 +2,7 @@
 #include "stdio.h"
 #include <stdlib.h>
 
-char* ReadFile(char *p)
+char* ReadFile(const char *p)
 {
     char* data = NULL;
     FILE *fptr = fopen(p, "r");
