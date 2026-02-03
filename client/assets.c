@@ -15,21 +15,23 @@ int GetAssetList(char** list, int* size)
     }
     while ((dr = readdir(folder)) != NULL)
     {
-        if (!strcmp(dr->d_name, ".") || !strcmp(dr->d_name, ".."))
+        if (strcmp(dr->d_name, ".") != 0 || strcmp(dr->d_name, "..") != 0)
         {
+            printf("%s\n", "test");
             (*size)++;
-            list = realloc(list, sizeof(int*) * (*size));
+            list = realloc(list, sizeof(char*) * (*size));
             if (list == NULL)
             {
                 return 1;
             }
-            list[*size] = malloc(sizeof(int) * (strlen(dr->d_name) + 1));
-            if (list[*size] == NULL)
+            list[*size - 1] = malloc(sizeof(char) * (strlen(dr->d_name) + 1));
+            if (list[*size - 1] == NULL)
             {
                 return 1;
             }
-            strcpy(list[*size], dr->d_name);
+            strcpy(list[*size - 1], dr->d_name);
         }
     }
     closedir(folder);
+    return 0;
 }
