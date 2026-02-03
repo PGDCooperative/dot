@@ -1,3 +1,4 @@
+#include "assets.h"
 #include "render.h"
 #include "settings.h"
 

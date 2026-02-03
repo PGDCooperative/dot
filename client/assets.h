@@ -1,6 +1,6 @@
 #ifndef ASSETS_H
 #define ASSETS_H
 
-char** GetAssetList();
+int GetAssetList(char** list, int* size);
 
 #endif
