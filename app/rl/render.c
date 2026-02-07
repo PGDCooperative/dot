@@ -14,7 +14,7 @@ void InitializeWindow(int width, int height, bool fullscreen)
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 }
 
-void RenderLoop(Settings *settings)
+void RenderLoop(RLAssets* rlassets, Settings* settings)
 {
     UIState uistate = {.mainmenu = true};
     Camera3D camera = {0};
@@ -35,7 +35,7 @@ void RenderLoop(Settings *settings)
         }
         if (uistate.settingsmenu)
         {
-            SettingsMenu(settings);
+            SettingsMenu(&settings);
         }
         if (uistate.pausemenu)
         {

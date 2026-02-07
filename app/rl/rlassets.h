@@ -9,6 +9,8 @@ typedef struct {
     int size;
 } RLAssets;
 
-int Preload(RLAssets *rlassets);
+RLAssets* Preload();
+
+Texture2D* GetTexture(RLAssets* rlassets, const char* name);
 
 #endif
