@@ -45,7 +45,6 @@ int GetAssetList(const char* p, char*** list, int* size)
                 (*list)[(*size) - 1] = (char*)malloc(sizeof(char) * strsize);
                 if ((*list)[*size - 1] == NULL)
                 {
-                    free(*list);
                     closedir(folder);
                     return 1;
                 }

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef struct {
-    bool mainmenu, gameloop, settingsmenu, pausemenu;
+    bool mainmenu, gameplay, settingsmenu, pausemenu;
 } UIState;
 
 #endif

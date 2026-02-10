@@ -19,5 +19,9 @@ int main(void)
     {
         return 1;
     }
-    RenderLoop(rlassets, &settings);
+    if (RenderLoop(rlassets, &settings) != 0)
+    {
+        return 1;
+    }
+    return 0;
 }

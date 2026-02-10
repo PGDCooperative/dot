@@ -6,15 +6,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_C_STANDARD 99)
 
-add_compile_options(
-    -g
-)
-
 add_executable(dot 
     ${CMAKE_SOURCE_DIR}/app/rl/main.c
     ${CMAKE_SOURCE_DIR}/app/rl/rlassets.c
     ${CMAKE_SOURCE_DIR}/app/rl/gui.c
     ${CMAKE_SOURCE_DIR}/app/rl/render.c
+    ${CMAKE_SOURCE_DIR}/app/rl/input.c
     ${CMAKE_SOURCE_DIR}/client/assets.c
     ${CMAKE_SOURCE_DIR}/client/settings.c
     ${CMAKE_SOURCE_DIR}/utils/file.c
