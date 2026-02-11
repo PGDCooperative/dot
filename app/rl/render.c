@@ -1,7 +1,7 @@
 #include "render.h"
 #include "raylib.h"
 #include "gui.h"
-#include "rl/rlassets.h"
+#include "rlassets.h"
 #include "uistate.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -24,7 +24,7 @@ void InitializeWindow(int width, int height, bool fullscreen)
     }
 }
 
-int RenderLoop(RLAssets* rlassets, Settings* settings)
+int RenderLoop(RLAssets* rlassets, Settings settings)
 {
     UIState uistate = {.mainmenu = true};
     Camera3D camera = {0};
@@ -62,7 +62,7 @@ int RenderLoop(RLAssets* rlassets, Settings* settings)
         }
         if (uistate.settingsmenu)
         {
-            SettingsMenu(settings);
+            SettingsMenu(&settings);
         }
         if (uistate.pausemenu)
         {

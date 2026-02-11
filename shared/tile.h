@@ -1,8 +1,10 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef TILE_H
+#define TILE_H
 
 typedef struct {
-    
+    int hp;
+    int id;
+    int factionid;
 } Tile;
 
 #endif

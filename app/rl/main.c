@@ -19,7 +19,7 @@ int main(void)
     {
         return 1;
     }
-    if (RenderLoop(rlassets, &settings) != 0)
+    if (RenderLoop(rlassets, settings) != 0)
     {
         return 1;
     }

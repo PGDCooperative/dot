@@ -7,7 +7,7 @@
 
 void InitializeWindow(int width, int height, bool fullscreen);
 
-int RenderLoop(RLAssets* rlassets, Settings* settings);
+int RenderLoop(RLAssets* rlassets, Settings settings);
 
 float GetAspectRatio(float screenAspectRatio);
 
