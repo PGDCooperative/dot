@@ -24,7 +24,7 @@ void InitializeWindow(int width, int height, bool fullscreen)
     }
 }
 
-int RenderLoop(RLAssets* rlassets, Settings settings)
+int RenderLoop(RLAssets rlassets, Settings settings)
 {
     UIState uistate = {.mainmenu = true};
     Camera3D camera = {0};

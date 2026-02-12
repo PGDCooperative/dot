@@ -2,7 +2,6 @@
 #include "rlassets.h"
 #include "settings.h"
 #include <dirent.h>
-#include "stdio.h"
 
 int main(void)
 {
@@ -14,8 +13,8 @@ int main(void)
     }
 
     InitializeWindow(settings.width, settings.height, settings.fullscreen);
-    RLAssets* rlassets = Preload();
-    if (rlassets == NULL)
+    RLAssets rlassets = {0};
+    if (Preload(&rlassets) != 0)
     {
         return 1;
     }

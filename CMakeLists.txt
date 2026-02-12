@@ -16,7 +16,10 @@ add_executable(dot
     ${CMAKE_SOURCE_DIR}/client/assets.c
     ${CMAKE_SOURCE_DIR}/client/settings.c
 
+    ${CMAKE_SOURCE_DIR}/server/server.c
+
     ${CMAKE_SOURCE_DIR}/shared/game.c
+    ${CMAKE_SOURCE_DIR}/shared/entity.c
     ${CMAKE_SOURCE_DIR}/shared/tile.c
 
     ${CMAKE_SOURCE_DIR}/utils/file.c
@@ -27,6 +30,10 @@ add_subdirectory(deps/raylib)
 
 target_link_libraries(dot PRIVATE raylib)
 
+add_subdirectory(deps/libuv)
+
+target_link_libraries(dot PRIVATE uv)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/app
     ${CMAKE_SOURCE_DIR}/client
@@ -35,4 +42,5 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/utils
     ${CMAKE_SOURCE_DIR}/deps/raylib/src
     ${CMAKE_SOURCE_DIR}/deps/cJSON
+    ${CMAKE_SOURCE_DIR}/deps/libuv/include
 )

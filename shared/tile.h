@@ -5,6 +5,7 @@ typedef struct {
     int hp;
     int id;
     int factionid;
+    int type;
 } Tile;
 
 #endif
