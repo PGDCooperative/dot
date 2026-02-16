@@ -1,6 +1,0 @@
-build/*
-test/
-test.sh
-!build/settings.json
-run.sh
-.cache/
