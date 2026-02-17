@@ -1,12 +1,16 @@
 package client
 
 import (
+	_ "embed"
 	"io/fs"
 	"path/filepath"
 	"strings"
 )
 
-func GetAssetsList(folder string) []string {
+//go:embed assets.txt
+var requiredlist []byte
+
+func GetAssetsList(folder string) ([]string, error) {
 	var assets []string
 	filepath.WalkDir(folder, func(path string, d fs.DirEntry, err error) error {
 		if strings.Contains(path, "/") {
@@ -14,5 +18,5 @@ func GetAssetsList(folder string) []string {
 		}
 		return nil
 	})
-	return assets
+	return assets, nil
 }

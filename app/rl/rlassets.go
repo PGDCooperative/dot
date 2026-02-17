@@ -10,7 +10,10 @@ import (
 type RLAssets map[string]rl.Texture2D
 
 func Preload(folder string) (RLAssets, error) {
-	assetslist := client.GetAssetsList(folder)
+	assetslist, err := client.GetAssetsList(folder)
+	if err != nil {
+		return nil, err
+	}
 	rlassets := make(RLAssets)
 	for _, val := range assetslist {
 		rlassets[val] = rl.LoadTexture(val)
