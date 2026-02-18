@@ -6,3 +6,7 @@ type Game struct {
 	Tiles    []*Tile    `json:"tiles"`
 	Entities []*Entity  `json:"entities"`
 }
+
+func NewGame() Game {
+	return Game{}
+}

@@ -14,7 +14,7 @@ var requiredlist []byte
 func GetAssetsList(folder string) ([]string, error) {
 	var assets []string
 	filepath.WalkDir(folder, func(path string, d fs.DirEntry, err error) error {
-		if strings.Contains(path, "/") {
+		if strings.Contains(path, "/") && !strings.Contains(path, "fonts") {
 			assets = append(assets, path)
 		}
 		return nil
@@ -27,8 +27,8 @@ func GetAssetsList(folder string) ([]string, error) {
 		}
 		if val == '\n' {
 			var there bool
-			for _, val := range assets {
-				if val == bufstr {
+			for _, val1 := range assets {
+				if val1 == bufstr {
 					there = true
 				}
 			}
