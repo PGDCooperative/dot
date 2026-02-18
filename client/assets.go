@@ -2,6 +2,7 @@ package client
 
 import (
 	_ "embed"
+	"errors"
 	"io/fs"
 	"path/filepath"
 	"strings"
@@ -18,5 +19,24 @@ func GetAssetsList(folder string) ([]string, error) {
 		}
 		return nil
 	})
+	var bufstr string
+	for _, val := range requiredlist {
+		// awful, needs rewrite
+		if val != '\n' {
+			bufstr += string(val)
+		}
+		if val == '\n' {
+			var there bool
+			for _, val := range assets {
+				if val == bufstr {
+					there = true
+				}
+			}
+			if there == false {
+				return nil, errors.New("")
+			}
+			bufstr = ""
+		}
+	}
 	return assets, nil
 }
