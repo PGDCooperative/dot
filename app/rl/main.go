@@ -14,7 +14,7 @@ func main() {
 		panic(err)
 	}
 	InitializeWindow(settings.Width, settings.Height, settings.Fullscreen)
-	rlassets, err := Preload("assets")
+	rlassets, err := Preload()
 	if err != nil {
 		panic(err)
 	}

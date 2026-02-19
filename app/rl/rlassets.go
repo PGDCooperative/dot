@@ -9,13 +9,9 @@ import (
 
 type RLAssets map[string]rl.Texture2D
 
-func Preload(folder string) (RLAssets, error) {
-	assetslist, err := client.GetAssetsList(folder)
-	if err != nil {
-		return nil, err
-	}
+func Preload() (RLAssets, error) {
 	rlassets := make(RLAssets)
-	for _, val := range assetslist {
+	for _, val := range client.RequiredAssets {
 		rlassets[val] = rl.LoadTexture(val)
 		if rlassets[val].ID <= 0 {
 			return nil, errors.New("")
