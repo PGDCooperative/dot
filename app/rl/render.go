@@ -23,6 +23,8 @@ func InitializeWindow(width int, height int, fullscreen bool) {
 
 func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Locale) error {
 	uistate := client.UIState{MainMenu: true}
+	font := rl.LoadFontEx("assets/fonts/opensans.ttf", 100, nil, 250)
+	buttonstate := GenButtonState(locale, &font)
 
 	camera := rl.Camera3D{}
 	camera.Position = rl.NewVector3(0.0, 0.0, 0.5)
@@ -30,9 +32,6 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 	camera.Up = rl.NewVector3(0.0, 1.0, 0.0)
 	camera.Fovy = 45.0
 	camera.Projection = rl.CameraOrthographic
-
-	//font := rl.LoadFont("assets/fonts/opensans.ttf")
-	font := rl.LoadFontEx("assets/fonts/opensans.ttf", 100, nil, 250)
 
 	for !rl.WindowShouldClose() {
 		screenWidth := rl.GetScreenWidth()
@@ -49,13 +48,13 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 		}
 		rl.EndMode3D()
 		if uistate.MainMenu {
-			MainMenu(&uistate, locale, &font)
+			MainMenu(&uistate, buttonstate, font)
 		}
 		if uistate.SettingsMenu {
-			SettingsMenu(&uistate, &settings, locale, &font)
+			SettingsMenu(&uistate, buttonstate, &settings)
 		}
 		if uistate.PauseMenu {
-			PauseMenu(&uistate, locale, &font)
+			PauseMenu(&uistate, buttonstate)
 		}
 		rl.EndDrawing()
 	}
