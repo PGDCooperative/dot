@@ -21,43 +21,43 @@ type TextButton struct {
 	Button
 	text string
 	size float32
-	font rl.Font
+	font *rl.Font
 }
 
-func GenButtonState(locale client.Locale, font *rl.Font) ButtonState {
+func GenButtonState(locale client.Locale, font rl.Font) ButtonState {
 	state := make(ButtonState)
 	state["NewGame"] = &TextButton{
 		Button: Button{rl.NewVector2(70.0, 270.0), rl.White},
 		text:   locale.Get("#DOT_NEWGAME"),
 		size:   50.0,
-		font:   *font,
+		font:   &font,
 	}
 
 	state["LoadGame"] = &TextButton{
 		Button: Button{rl.NewVector2(70.0, 370.0), rl.White},
 		text:   locale.Get("#DOT_LOADGAME"),
 		size:   50.0,
-		font:   *font,
+		font:   &font,
 	}
 
 	state["Settings"] = &TextButton{
 		Button: Button{rl.NewVector2(70.0, 470.0), rl.White},
 		text:   locale.Get("#DOT_SETTINGS"),
 		size:   50.0,
-		font:   *font,
+		font:   &font,
 	}
 
 	state["QuitGame"] = &TextButton{
 		Button: Button{rl.NewVector2(70.0, 570.0), rl.White},
 		text:   locale.Get("#DOT_QUITGAME"),
 		size:   50.0,
-		font:   *font,
+		font:   &font,
 	}
 	return state
 }
 
 func (b *TextButton) Draw(mousePos rl.Vector2, cb func()) {
-	rl.DrawTextEx(b.font, b.text, b.pos, b.size, 5.0, b.color)
+	rl.DrawTextEx(*b.font, b.text, b.pos, b.size, 5.0, b.color)
 	bounds := rl.NewRectangle(b.pos.X, b.pos.Y, 29.0*float32(len(b.text)), 50.0)
 	btnState := 0
 	isPressed := false
