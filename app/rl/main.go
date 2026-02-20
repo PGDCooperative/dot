@@ -7,18 +7,37 @@ import (
 func main() {
 	settings, err := client.GetSettings("settings.json")
 	if err != nil {
-		//panic(err)
+		settings.WriteSettings()
 	}
+
 	locale, err := client.GetLocalization(settings.Language)
 	if err != nil {
 		panic(err)
 	}
+
 	InitializeWindow(settings.Width, settings.Height, settings.Fullscreen)
-	rlassets, err := Preload()
+
+	rltextures, err := PreloadTextures()
 	if err != nil {
 		panic(err)
 	}
-	err = RenderLoop(rlassets, settings, locale)
+
+	rlfonts, err := PreloadFonts()
+	if err != nil {
+		panic(err)
+	}
+
+	renderState := RenderState{
+		settings:    settings,
+		locale:      locale,
+		rltextures:  rltextures,
+		rlfonts:     rlfonts,
+		uistate:     client.GetUIState(),
+		buttonstate: GenButtonState(locale, rlfonts),
+		camera:      InitCamera(),
+	}
+
+	err = RenderLoop(renderState)
 	if err != nil {
 		panic(err)
 	}

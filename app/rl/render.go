@@ -2,7 +2,6 @@ package main
 
 import (
 	"dot/client"
-	"errors"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -13,13 +12,13 @@ const (
 	gameAspectRatio = float32(gameWidth) / float32(gameHeight)
 )
 
-type RenderRuntime struct {
-	rlassets          RLAssets
+type RenderState struct {
 	settings          client.Settings
 	locale            client.Locale
+	rltextures        RLTextures
+	rlfonts           RLFonts
 	uistate           client.UIState
 	buttonstate       ButtonState
-	font              rl.Font
 	camera            rl.Camera3D
 	screenAspectRatio float32
 	mousePos          rl.Vector2
@@ -37,56 +36,40 @@ func InitializeWindow(width int, height int, fullscreen bool) {
 	rl.SetTargetFPS(60)
 }
 
-func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Locale) error {
-	font := rl.LoadFontEx("assets/fonts/opensans.ttf", 100, nil, 250)
-	if font.BaseSize == 0 {
-		return errors.New("Failed to load fonts!")
-	}
-
-	//megastructure
-	renderRuntime := RenderRuntime{
-		rlassets:    rlassets,
-		settings:    settings,
-		locale:      locale,
-		uistate:     client.GetUIState(),
-		buttonstate: GenButtonState(locale, &font),
-		font:        font,
-		camera:      InitCamera(),
-	}
-
-	for !renderRuntime.exitWindow {
+func RenderLoop(renderState RenderState) error {
+	for !renderState.exitWindow {
 		if rl.WindowShouldClose() {
-			renderRuntime.exitWindow = true
+			renderState.exitWindow = true
 		}
-		renderRuntime.settings.Width = rl.GetScreenWidth()
-		renderRuntime.settings.Height = rl.GetScreenHeight()
+		renderState.settings.Width = rl.GetScreenWidth()
+		renderState.settings.Height = rl.GetScreenHeight()
 		if rl.IsKeyReleased(rl.KeyF11) {
-			ToggleFullscreen(&renderRuntime.settings.Fullscreen)
+			ToggleFullscreen(&renderState.settings.Fullscreen)
 		}
-		renderRuntime.screenAspectRatio = float32(renderRuntime.settings.Width) / float32(renderRuntime.settings.Height)
-		renderRuntime.mousePos = rl.GetMousePosition()
+		renderState.screenAspectRatio = float32(renderState.settings.Width) / float32(renderState.settings.Height)
+		renderState.mousePos = rl.GetMousePosition()
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
 
-		rl.BeginMode3D(renderRuntime.camera)
-		if renderRuntime.uistate["MainMenu"] {
-			rl.DrawBillboard(renderRuntime.camera,
-				rlassets["assets/background.png"],
-				rl.NewVector3(0.0, 0.0, 0.0), 45.0*PreserveAspectRatio(renderRuntime.screenAspectRatio), rl.White)
+		rl.BeginMode3D(renderState.camera)
+		if renderState.uistate["MainMenu"] {
+			rl.DrawBillboard(renderState.camera,
+				renderState.rltextures["assets/background.png"],
+				rl.NewVector3(0.0, 0.0, 0.0), 45.0*PreserveAspectRatio(renderState.screenAspectRatio), rl.White)
 		}
 		rl.EndMode3D()
 
-		if renderRuntime.uistate["MainMenu"] {
-			renderRuntime.MainMenu()
+		if renderState.uistate["MainMenu"] {
+			renderState.MainMenu()
 		}
-		if renderRuntime.uistate["SettingsMenu"] {
-			renderRuntime.SettingsMenu()
+		if renderState.uistate["SettingsMenu"] {
+			renderState.SettingsMenu()
 		}
 
 		rl.EndDrawing()
 	}
-	err := renderRuntime.settings.WriteSettings()
+	err := renderState.settings.WriteSettings()
 	if err != nil {
 		return err
 	}

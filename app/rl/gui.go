@@ -4,8 +4,8 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-func (r *RenderRuntime) MainMenu() {
-	rl.DrawTextEx(r.font, "Divide. Operate. Thrive.",
+func (r *RenderState) MainMenu() {
+	rl.DrawTextEx(r.rlfonts["assets/fonts/opensans.ttf"], "Divide. Operate. Thrive.",
 		rl.NewVector2(20.0, 150.0), 100.0, 1.0, rl.White)
 
 	r.buttonstate["NewGame"].Draw(r.mousePos, func() {
@@ -22,6 +22,6 @@ func (r *RenderRuntime) MainMenu() {
 	})
 }
 
-func (r *RenderRuntime) SettingsMenu() {
+func (r *RenderState) SettingsMenu() {
 
 }

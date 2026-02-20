@@ -15,9 +15,9 @@ type Settings struct {
 func GetSettings(path string) (Settings, error) {
 	// default value
 	settings := Settings{
-		Width:      1280,
-		Height:     720,
-		Fullscreen: false,
+		Width:      1920,
+		Height:     1080,
+		Fullscreen: true,
 		Language:   "english",
 	}
 	data, err := os.ReadFile(path)
