@@ -22,6 +22,7 @@ type RenderRuntime struct {
 	font              rl.Font
 	camera            rl.Camera3D
 	screenAspectRatio float32
+	mousePos          rl.Vector2
 	exitWindow        bool
 }
 
@@ -41,6 +42,7 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 	if font.BaseSize == 0 {
 		return errors.New("Failed to load fonts!")
 	}
+
 	//megastructure
 	renderRuntime := RenderRuntime{
 		rlassets:    rlassets,
@@ -50,7 +52,6 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 		buttonstate: GenButtonState(locale, &font),
 		font:        font,
 		camera:      InitCamera(),
-		exitWindow:  false,
 	}
 
 	for !renderRuntime.exitWindow {
@@ -59,13 +60,15 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 		}
 		renderRuntime.settings.Width = rl.GetScreenWidth()
 		renderRuntime.settings.Height = rl.GetScreenHeight()
-		renderRuntime.screenAspectRatio = float32(renderRuntime.settings.Width) / float32(renderRuntime.settings.Height)
 		if rl.IsKeyReleased(rl.KeyF11) {
 			ToggleFullscreen(&renderRuntime.settings.Fullscreen)
 		}
+		renderRuntime.screenAspectRatio = float32(renderRuntime.settings.Width) / float32(renderRuntime.settings.Height)
+		renderRuntime.mousePos = rl.GetMousePosition()
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
+
 		rl.BeginMode3D(renderRuntime.camera)
 		if renderRuntime.uistate["MainMenu"] {
 			rl.DrawBillboard(renderRuntime.camera,
@@ -73,12 +76,14 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 				rl.NewVector3(0.0, 0.0, 0.0), 45.0*PreserveAspectRatio(renderRuntime.screenAspectRatio), rl.White)
 		}
 		rl.EndMode3D()
+
 		if renderRuntime.uistate["MainMenu"] {
 			renderRuntime.MainMenu()
 		}
 		if renderRuntime.uistate["SettingsMenu"] {
 			renderRuntime.SettingsMenu()
 		}
+
 		rl.EndDrawing()
 	}
 	err := renderRuntime.settings.WriteSettings()

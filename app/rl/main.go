@@ -7,7 +7,7 @@ import (
 func main() {
 	settings, err := client.GetSettings("settings.json")
 	if err != nil {
-		panic(err)
+		//panic(err)
 	}
 	locale, err := client.GetLocalization(settings.Language)
 	if err != nil {
