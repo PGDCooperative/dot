@@ -30,3 +30,15 @@ func GetSettings(path string) (Settings, error) {
 	}
 	return settings, nil
 }
+
+func (s Settings) WriteSettings() error {
+	data, err := json.MarshalIndent(s, "", "    ")
+	if err != nil {
+		return err
+	}
+	err = os.WriteFile("settings.json", data, 0770)
+	if err != nil {
+		return err
+	}
+	return nil
+}

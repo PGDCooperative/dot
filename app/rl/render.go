@@ -14,14 +14,15 @@ const (
 )
 
 type RenderRuntime struct {
-	rlassets    RLAssets
-	settings    client.Settings
-	uistate     client.UIState
-	buttonstate ButtonState
-	locale      client.Locale
-	font        rl.Font
-	camera      rl.Camera3D
-	exitWindow  bool
+	rlassets          RLAssets
+	settings          client.Settings
+	locale            client.Locale
+	uistate           client.UIState
+	buttonstate       ButtonState
+	font              rl.Font
+	camera            rl.Camera3D
+	screenAspectRatio float32
+	exitWindow        bool
 }
 
 func InitializeWindow(width int, height int, fullscreen bool) {
@@ -44,9 +45,9 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 	renderRuntime := RenderRuntime{
 		rlassets:    rlassets,
 		settings:    settings,
+		locale:      locale,
 		uistate:     client.GetUIState(),
 		buttonstate: GenButtonState(locale, &font),
-		locale:      locale,
 		font:        font,
 		camera:      InitCamera(),
 		exitWindow:  false,
@@ -56,9 +57,12 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 		if rl.WindowShouldClose() {
 			renderRuntime.exitWindow = true
 		}
-		screenWidth := rl.GetScreenWidth()
-		screenHeight := rl.GetScreenHeight()
-		screenAspectRatio := float32(screenWidth) / float32(screenHeight)
+		renderRuntime.settings.Width = rl.GetScreenWidth()
+		renderRuntime.settings.Height = rl.GetScreenHeight()
+		renderRuntime.screenAspectRatio = float32(renderRuntime.settings.Width) / float32(renderRuntime.settings.Height)
+		if rl.IsKeyReleased(rl.KeyF11) {
+			ToggleFullscreen(&renderRuntime.settings.Fullscreen)
+		}
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.Black)
@@ -66,7 +70,7 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 		if renderRuntime.uistate["MainMenu"] {
 			rl.DrawBillboard(renderRuntime.camera,
 				rlassets["assets/background.png"],
-				rl.NewVector3(0.0, 0.0, 0.0), 45.0*PreserveAspectRatio(screenAspectRatio), rl.White)
+				rl.NewVector3(0.0, 0.0, 0.0), 45.0*PreserveAspectRatio(renderRuntime.screenAspectRatio), rl.White)
 		}
 		rl.EndMode3D()
 		if renderRuntime.uistate["MainMenu"] {
@@ -76,6 +80,10 @@ func RenderLoop(rlassets RLAssets, settings client.Settings, locale client.Local
 			renderRuntime.SettingsMenu()
 		}
 		rl.EndDrawing()
+	}
+	err := renderRuntime.settings.WriteSettings()
+	if err != nil {
+		return err
 	}
 	rl.CloseWindow()
 	return nil
@@ -96,4 +104,12 @@ func PreserveAspectRatio(screenAspectRatio float32) float32 {
 		return screenAspectRatio / gameAspectRatio
 	}
 	return 1.0
+}
+
+func ToggleFullscreen(fullscreen *bool) {
+	rl.ToggleFullscreen()
+	*fullscreen = !*fullscreen
+	if *fullscreen == false {
+		rl.SetWindowState(rl.FlagWindowResizable)
+	}
 }
