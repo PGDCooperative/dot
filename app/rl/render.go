@@ -36,7 +36,7 @@ func InitializeWindow(width int, height int, fullscreen bool) {
 	rl.SetTargetFPS(60)
 }
 
-func RenderLoop(renderState RenderState) error {
+func RenderLoop(renderState RenderState) {
 	for !renderState.exitWindow {
 		if rl.WindowShouldClose() {
 			renderState.exitWindow = true
@@ -69,12 +69,8 @@ func RenderLoop(renderState RenderState) error {
 
 		rl.EndDrawing()
 	}
-	err := renderState.settings.WriteSettings()
-	if err != nil {
-		return err
-	}
+	renderState.settings.WriteSettings()
 	rl.CloseWindow()
-	return nil
 }
 
 func InitCamera() rl.Camera3D {

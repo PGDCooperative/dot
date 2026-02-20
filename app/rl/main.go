@@ -37,8 +37,5 @@ func main() {
 		camera:      InitCamera(),
 	}
 
-	err = RenderLoop(renderState)
-	if err != nil {
-		panic(err)
-	}
+	RenderLoop(renderState)
 }
